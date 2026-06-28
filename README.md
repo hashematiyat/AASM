@@ -16,12 +16,12 @@ Designed in the philosophy of **Nmap, BloodHound, and Trivy** — but specialize
 
 ```bash
 # Install from PyPI
-pip install aasm
+pipx install aasm
 
 # Or install from source
 git clone https://github.com/hashematiyat/AASM.git
 cd AASM
-pip install -e .
+pipx install -e .
 
 # Run a scan
 aasm scan 192.168.1.0/24
