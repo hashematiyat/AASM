@@ -1,0 +1,116 @@
+# AASM Default Configuration
+# AI Attack Surface Mapper — Enterprise AI Security Platform
+version: "1"
+
+discovery:
+  timeout: 5.0
+  concurrency: 50
+  retries: 2
+  verify_ssl: false
+  follow_redirects: true
+  user_agent: "AASM/0.1.0 (AI Attack Surface Mapper)"
+  ports:
+    # Ollama
+    - 11434
+    - 11435
+    # Open WebUI / Flowise / LangFlow
+    - 3000
+    - 3001
+    # LM Studio
+    - 1234
+    - 1235
+    # LiteLLM / generic
+    - 4000
+    - 4001
+    # vLLM / HuggingFace TGI
+    - 8080
+    - 8000
+    - 8001
+    # AnythingLLM
+    - 3333
+    # Generic AI APIs
+    - 5000
+    - 5001
+    - 6000
+    - 7000
+    - 7860
+    - 9000
+    # Standard web
+    - 80
+    - 443
+    - 8443
+
+mcp:
+  timeout: 10.0
+  enumerate_tools: true
+  enumerate_resources: true
+  enumerate_prompts: true
+  check_auth: true
+
+assessment:
+  prompt_injection: true
+  prompt_leakage: true
+  jailbreak: false
+  tool_abuse: true
+  max_payloads: 20
+  timeout: 30.0
+
+reporting:
+  output_dir: "./aasm_reports"
+  formats:
+    - json
+    - html
+  include_executive_summary: true
+  include_mitre_mapping: true
+  include_owasp_mapping: true
+
+database:
+  url: "sqlite+aiosqlite:///./aasm.db"
+  echo: false
+
+logging:
+  level: INFO
+  file: null
+  json_format: false
+
+plugins: []
+
+# Scan profiles
+profiles:
+  quick:
+    name: quick
+    description: Fast discovery on common AI ports only
+    ports: [11434, 3000, 1234, 4000, 8080]
+    timeout: 3.0
+    concurrency: 100
+    aggressive: false
+
+  standard:
+    name: standard
+    description: Standard discovery with full port list
+    timeout: 5.0
+    concurrency: 50
+    aggressive: false
+
+  aggressive:
+    name: aggressive
+    description: Aggressive scan with all modules and assessment
+    timeout: 10.0
+    concurrency: 25
+    aggressive: true
+    include_modules:
+      - discovery
+      - fingerprint
+      - mcp
+      - agents
+      - assessment
+      - mapper
+      - risk
+      - reporting
+
+  stealth:
+    name: stealth
+    description: Low and slow scan to avoid detection
+    timeout: 15.0
+    concurrency: 5
+    aggressive: false
