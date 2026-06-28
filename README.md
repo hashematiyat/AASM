@@ -19,8 +19,8 @@ Designed in the philosophy of **Nmap, BloodHound, and Trivy** — but specialize
 pip install aasm
 
 # Or install from source
-git clone https://github.com/aasm-project/aasm
-cd aasm
+git clone https://github.com/hashematiyat/AASM.git
+cd AASM
 pip install -e .
 
 # Run a scan
